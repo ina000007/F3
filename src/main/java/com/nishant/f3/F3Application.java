@@ -5,10 +5,11 @@ import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.context.annotation.ComponentScan;
 import org.springframework.data.mongodb.repository.config.EnableMongoRepositories;
 
+import com.nishant.database.QuestionSetRepository;
 import com.nishant.database.UserRepository;
 
 @SpringBootApplication
-@EnableMongoRepositories(basePackageClasses=UserRepository.class)
+@EnableMongoRepositories(basePackageClasses= {UserRepository.class,QuestionSetRepository.class})
 @ComponentScan("com.nishant.database")
 @ComponentScan("com.nishant")
 public class F3Application {

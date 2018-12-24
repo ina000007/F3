@@ -4,11 +4,8 @@ import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
-import com.nishant.database.QuestionSetRepository;
-import com.nishant.database.UserRepository;
 import com.nishant.model.QuestionSet;
 
 @Component
@@ -21,8 +18,6 @@ public class QuestionComp {
 //	static QuestionSet;
 	int quesCnt=0;
 	Date date;
-	@Autowired
-	QuestionSetRepository quesRepository;
 	public QuestionComp() {
 		if(quesLst==null) {
 			quesLst = new ArrayList<>();

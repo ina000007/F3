@@ -48,6 +48,8 @@ public class QuestionSet {
 	@Id
 	long qId;
 	
+	
+	
 	public QuestionSet(String qTyp, String qDesc, String qNum, String qOpt1, String qOpt2, String qOpt3, String qOpt4,
 			String ans, String qTimeLmt, String qPnts) {
 		super();
@@ -61,7 +63,8 @@ public class QuestionSet {
 		this.ans = ans;
 		this.qTimeLmt = qTimeLmt;
 		this.qPnts = qPnts;
-		this.qId = getNextSequence(SEQUENCE_NAME);
+//		this.qId = getNextSequence(SEQUENCE_NAME);
+		this.qId = 12;
 	}
 	
 	public String getqTyp() {
@@ -125,15 +128,15 @@ public class QuestionSet {
 		this.qPnts = qPnts;
 	}
 	
-	@Autowired 
-	private MongoOperations mongo;
-    public long getNextSequence(String seqName)
-    {
-        DatabaseSequence counter = mongo.findAndModify(
-            query(where("_id").is(seqName)),
-            new Update().inc("seq",1),
-            options().returnNew(true).upsert(true),
-            DatabaseSequence.class);
-        return counter.getSeq();
-    }
+//	@Autowired 
+//	private MongoOperations mongo;
+//    public long getNextSequence(String seqName)
+//    {
+//        DatabaseSequence counter = mongo.findAndModify(
+//            query(where("_id").is(seqName)),
+//            new Update().inc("seq",1),
+//            options().returnNew(true).upsert(true),
+//            DatabaseSequence.class);
+//        return counter.getSeq();
+//    }
 }

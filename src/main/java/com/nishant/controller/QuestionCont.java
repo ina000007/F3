@@ -1,6 +1,7 @@
 package com.nishant.controller;
 
 import java.util.List;
+import java.util.Optional;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
@@ -16,6 +17,7 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 import com.fasterxml.jackson.databind.ObjectWriter;
 import com.nishant.components.QuestionComp;
 import com.nishant.database.QuestionSetRepository;
+import com.nishant.database.UserRepository;
 import com.nishant.model.QuestionSet;
 import com.nishant.model.User;
 import com.nishant.view.Views;
@@ -28,6 +30,8 @@ public class QuestionCont {
     ObjectMapper mapper;
 	@Autowired
 	QuestionSetRepository questionSetRepository;
+	@Autowired
+	UserRepository userRepository;
 	
 	@RequestMapping(path = "/question/", method = RequestMethod.GET)
 	public String getQuestion() throws NumberFormatException, InterruptedException, JsonProcessingException {
@@ -41,18 +45,34 @@ public class QuestionCont {
         }
 		 return viewWriter.writeValueAsString(quesComp.getQuestion());
 	}
-	@RequestMapping(path = "/addQuestion/", method = RequestMethod.POST)
-	public String postQuestion(@RequestBody QuestionSet ques ) throws NumberFormatException, InterruptedException, JsonProcessingException {
-		System.out.println("adding Question");
-		
-		questionSetRepository.save(ques);
-
-		 return "";
-	}
-	
 	@RequestMapping(path = "/submit/", method = RequestMethod.GET)
 	public void submitAns(@RequestHeader(value="emailId") String emailId, @RequestHeader(value="time") String time,@RequestHeader(value="ans") String ans) {
 		
 	}
 
+//	for admin
+	@RequestMapping(path = "/addQuestion/", method = RequestMethod.POST)
+	public String postQuestion(@RequestBody QuestionSet ques,@RequestHeader(value="emailid") String emailid ) throws NumberFormatException, InterruptedException, JsonProcessingException {
+		System.out.println("adding Question");
+		 Optional<User> result  = userRepository.findById(emailid);
+		 if(result.isPresent()) {
+			 User user = result.get();
+			 if(user.getRole().equalsIgnoreCase("admin")) {
+				 questionSetRepository.save(ques);
+				 return "Question Added";
+				 }
+		 }
+		 return null;
+	}
+	@RequestMapping(path = "/getAllQuestion/", method = RequestMethod.GET)
+	public List getAllQuestion(@RequestHeader(value="emailid") String emailid) throws NumberFormatException, InterruptedException, JsonProcessingException {
+		 Optional<User> result  = userRepository.findById(emailid);
+		 if(result.isPresent()) {
+			 User user = result.get();
+			 if(user.getRole().equalsIgnoreCase("admin"))
+				 return questionSetRepository.findAll();
+		 }
+		 return null;
+	}
+	
 }
