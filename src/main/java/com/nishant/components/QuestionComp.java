@@ -4,8 +4,12 @@ import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 
+import javax.annotation.PostConstruct;
+
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
+import com.nishant.database.QuestionSetRepository;
 import com.nishant.model.QuestionSet;
 
 @Component
@@ -18,12 +22,18 @@ public class QuestionComp {
 //	static QuestionSet;
 	int quesCnt=0;
 	Date date;
-	public QuestionComp() {
+	
+	@Autowired
+	QuestionSetRepository questionSetRepository;
+	
+	@PostConstruct
+	public void init() {
 		if(quesLst==null) {
-			quesLst = new ArrayList<>();
-			quesLst.add(new QuestionSet("mult", "What is docker", "111", "Language", "ORM", "machine", "devOps", "devOps", "20", "10"));
-			quesLst.add(new QuestionSet("mult", "What is pocker", "222", "Language", "game", "machine", "devOps", "game", "20", "10"));
-			quesLst.add(new QuestionSet("mult", "What is mocker", "333", "invalid", "ORM", "machine", "devOps", "invalid", "20", "10"));
+//			quesLst = new ArrayList<>();
+//			quesLst.add(new QuestionSet("mult", "What is docker", "111", "Language", "ORM", "machine", "devOps", "devOps", "20", "10"));
+//			quesLst.add(new QuestionSet("mult", "What is pocker", "222", "Language", "game", "machine", "devOps", "game", "20", "10"));
+//			quesLst.add(new QuestionSet("mult", "What is mocker", "333", "invalid", "ORM", "machine", "devOps", "invalid", "20", "10"));
+			quesLst = questionSetRepository.findAll();
 			ques = quesLst.get(0);
 			waitTime = Long.parseLong(ques.getqTimeLmt())*1000;
 			startTime = (new Date()).getTime();

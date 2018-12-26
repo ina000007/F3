@@ -1,11 +1,14 @@
 package com.nishant.controller;
 
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 import java.util.Optional;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestHeader;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -16,6 +19,7 @@ import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.fasterxml.jackson.databind.ObjectWriter;
 import com.nishant.components.QuestionComp;
+import com.nishant.database.DatabaseSequence;
 import com.nishant.database.QuestionSetRepository;
 import com.nishant.database.UserRepository;
 import com.nishant.model.QuestionSet;
@@ -33,6 +37,8 @@ public class QuestionCont {
 	@Autowired
 	UserRepository userRepository;
 	
+
+	@CrossOrigin(origins = "http://localhost:8000")
 	@RequestMapping(path = "/question/", method = RequestMethod.GET)
 	public String getQuestion() throws NumberFormatException, InterruptedException, JsonProcessingException {
 		System.out.println("here4");
@@ -51,19 +57,30 @@ public class QuestionCont {
 	}
 
 //	for admin
+    @Autowired
+    DatabaseSequence databaseSequence;
+
+	@CrossOrigin(origins = "http://localhost:8000")
 	@RequestMapping(path = "/addQuestion/", method = RequestMethod.POST)
-	public String postQuestion(@RequestBody QuestionSet ques,@RequestHeader(value="emailid") String emailid ) throws NumberFormatException, InterruptedException, JsonProcessingException {
+	public Map postQuestion(@RequestBody QuestionSet ques,@RequestHeader(value="emailid") String emailid ) throws NumberFormatException, InterruptedException, JsonProcessingException {
+		Map response = new HashMap<>();
 		System.out.println("adding Question");
 		 Optional<User> result  = userRepository.findById(emailid);
 		 if(result.isPresent()) {
 			 User user = result.get();
+			 
 			 if(user.getRole().equalsIgnoreCase("admin")) {
+				 ques.setqId(databaseSequence.getNextSequence("mymy_"));	
 				 questionSetRepository.save(ques);
-				 return "Question Added";
+				 response.put("status", "success");
+				 return response;
 				 }
 		 }
-		 return null;
+		 response.put("status", "fail");
+		 return response;
 	}
+
+	@CrossOrigin(origins = "http://localhost:8000")
 	@RequestMapping(path = "/getAllQuestion/", method = RequestMethod.GET)
 	public List getAllQuestion(@RequestHeader(value="emailid") String emailid) throws NumberFormatException, InterruptedException, JsonProcessingException {
 		 Optional<User> result  = userRepository.findById(emailid);

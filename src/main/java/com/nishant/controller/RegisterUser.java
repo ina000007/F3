@@ -1,10 +1,13 @@
 package com.nishant.controller;
 
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
@@ -24,18 +27,19 @@ public class RegisterUser {
 //	public RegisterUser(UsersRepository userRepository) {
 //		this.userRepository = userRepository;
 //	}
-
+	@CrossOrigin(origins = "http://localhost:8000")
 	@RequestMapping(path = "/register/", method = RequestMethod.POST)
-	public String userRegister(@RequestBody User user) {
-		String result="";
+	public Map serRegister(@RequestBody User user) {
+		Map result=new HashMap();
 		userComponent.addUser(user);
 		if(!usersRepository.existsById(user.getEmail())) {
 			System.out.println("new entry");
+		result.put("status", "success");
+		result.put("email", user.getEmail());
 		usersRepository.save(user);
-		result = user.getEmail();
 		}
 		else
-			result="Already registered";
+			result.put("status", "fail");
 		return result;
 	}
 

@@ -22,7 +22,7 @@ public class QuestionSet {
 
     @Transient
     public static final String SEQUENCE_NAME = "ques_sequence";
-	
+    
 	@JsonView(Views.Public.class)
 	private String qTyp;
 	@JsonView(Views.Public.class)
@@ -63,10 +63,18 @@ public class QuestionSet {
 		this.ans = ans;
 		this.qTimeLmt = qTimeLmt;
 		this.qPnts = qPnts;
-//		this.qId = getNextSequence(SEQUENCE_NAME);
+//		this.qId = databaseSequence.getNextSequence(SEQUENCE_NAME);
 		this.qId = 12;
 	}
 	
+	public long getqId() {
+		return qId;
+	}
+
+	public void setqId(long qId) {
+		this.qId = qId;
+	}
+
 	public String getqTyp() {
 		return qTyp;
 	}
@@ -128,15 +136,5 @@ public class QuestionSet {
 		this.qPnts = qPnts;
 	}
 	
-//	@Autowired 
-//	private MongoOperations mongo;
-//    public long getNextSequence(String seqName)
-//    {
-//        DatabaseSequence counter = mongo.findAndModify(
-//            query(where("_id").is(seqName)),
-//            new Update().inc("seq",1),
-//            options().returnNew(true).upsert(true),
-//            DatabaseSequence.class);
-//        return counter.getSeq();
-//    }
+
 }
