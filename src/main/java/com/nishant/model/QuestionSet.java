@@ -19,8 +19,8 @@ import static org.springframework.data.mongodb.core.query.Query.query;
 
 @Document
 public class QuestionSet {
-
-    @Transient
+	
+	@Transient
     public static final String SEQUENCE_NAME = "ques_sequence";
     
 	@JsonView(Views.Public.class)
@@ -46,6 +46,7 @@ public class QuestionSet {
 	private String ans;
 	
 	@Id
+	@JsonView(Views.Public.class)
 	long qId;
 	
 	
@@ -136,5 +137,11 @@ public class QuestionSet {
 		this.qPnts = qPnts;
 	}
 	
+    @Override
+	public String toString() {
+		return "QuestionSet [qTyp=" + qTyp + ", qDesc=" + qDesc + ", qNum=" + qNum + ", qOpt1=" + qOpt1 + ", qOpt2="
+				+ qOpt2 + ", qOpt3=" + qOpt3 + ", qOpt4=" + qOpt4 + ", qTimeLmt=" + qTimeLmt + ", qPnts=" + qPnts
+				+ ", ans=" + ans + ", qId=" + qId + "]";
+	}
 
 }

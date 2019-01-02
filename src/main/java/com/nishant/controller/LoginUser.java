@@ -15,6 +15,7 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.servlet.ModelAndView;
 
+import com.nishant.database.QuestionSetRepository;
 import com.nishant.database.UserRepository;
 import com.nishant.model.User;
 
@@ -22,8 +23,10 @@ import com.nishant.model.User;
 public class LoginUser {
 	@Autowired
 	UserRepository userRepository;
+	@Autowired
+	QuestionSetRepository questionSetRepository;
 
-	@CrossOrigin(origins = "http://localhost:8000")
+	@CrossOrigin(origins = "*")
 	@RequestMapping(path = "/login/", method = RequestMethod.POST)
 	public Map userLogin(@RequestBody User userInpCred) {
 		ModelAndView modelAndView = new ModelAndView();
@@ -53,6 +56,7 @@ public class LoginUser {
 		response.put("isAdmin", isAdmin);
 		response.put("email", userEmail);
 		response.put("page", view);
+		response.put("questions", questionSetRepository.count());
 		return response;
 	}
 }
