@@ -38,7 +38,7 @@ public class QuestionCont {
 	@Autowired
 	UserRepository userRepository;
 
-	@CrossOrigin(origins = "http://localhost:8000")
+	@CrossOrigin(origins = "*")
 	@RequestMapping(path = "/question/", method = RequestMethod.GET)
 	public String getQuestion() throws NumberFormatException, InterruptedException, JsonProcessingException {
 		System.out.println("here4");
@@ -51,7 +51,7 @@ public class QuestionCont {
 		}
 		return viewWriter.writeValueAsString(quesComp.getQuestion());
 	}
-	@CrossOrigin(origins = "http://localhost:8000")
+	@CrossOrigin(origins = "*")
 	@RequestMapping(path = "/submit/", method = RequestMethod.POST)
 	public Map submitAns(@RequestHeader(value = "emailId") String emailId, @RequestHeader(value = "time") String time,
 			@RequestHeader(value = "selctOptn") String selctOptn, @RequestHeader(value = "quesId") String quesId) {
@@ -67,7 +67,7 @@ public class QuestionCont {
 	@Autowired
 	DatabaseSequence databaseSequence;
 
-	@CrossOrigin(origins = "http://localhost:8000")
+	@CrossOrigin(origins = "*")
 	@RequestMapping(path = "/addQuestion/", method = RequestMethod.POST)
 	public Map postQuestion(@RequestBody QuestionSet ques, @RequestHeader(value = "emailid") String emailid)
 			throws NumberFormatException, InterruptedException, JsonProcessingException {
@@ -88,7 +88,7 @@ public class QuestionCont {
 		return response;
 	}
 
-	@CrossOrigin(origins = "http://localhost:8000")
+	@CrossOrigin(origins = "*")
 	@RequestMapping(path = "/getAllQuestion/", method = RequestMethod.GET)
 	public List getAllQuestion(@RequestHeader(value = "emailid") String emailid)
 			throws NumberFormatException, InterruptedException, JsonProcessingException {

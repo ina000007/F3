@@ -27,7 +27,7 @@ public class RegisterUser {
 //	public RegisterUser(UsersRepository userRepository) {
 //		this.userRepository = userRepository;
 //	}
-	@CrossOrigin(origins = "http://localhost:8000")
+	@CrossOrigin(origins = "*")
 	@RequestMapping(path = "/register/", method = RequestMethod.POST)
 	public Map serRegister(@RequestBody User user) {
 		Map result=new HashMap();
