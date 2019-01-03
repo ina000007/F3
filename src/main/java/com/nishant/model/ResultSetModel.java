@@ -1,6 +1,7 @@
 package com.nishant.model;
 
 import java.util.List;
+import java.util.Map;
 
 import org.springframework.data.annotation.Id;
 import org.springframework.data.mongodb.core.mapping.Document;
@@ -9,7 +10,7 @@ import org.springframework.data.mongodb.core.mapping.Document;
 public class ResultSetModel {
 	@Id
 	String emailId;
-	List<CurrLeaderModel> currLeaderModel;
+	Map<String,CurrLeaderModel> currLeaderModel;
 	
 	public String getEmailId() {
 		return emailId;
@@ -17,17 +18,20 @@ public class ResultSetModel {
 	public void setEmailId(String emailId) {
 		this.emailId = emailId;
 	}
-	public List<CurrLeaderModel> getCurrLeaderModel() {
+	
+	public Map<String, CurrLeaderModel> getCurrLeaderModel() {
 		return currLeaderModel;
 	}
-	public void setCurrLeaderModel(List<CurrLeaderModel> currLeaderModel) {
+	public void setCurrLeaderModel(Map<String, CurrLeaderModel> currLeaderModel) {
 		this.currLeaderModel = currLeaderModel;
 	}
-	public ResultSetModel(String emailId, List<CurrLeaderModel> currLeaderModel) {
+	public ResultSetModel(String emailId, Map<String, CurrLeaderModel> currLeaderModel) {
 		super();
 		this.emailId = emailId;
 		this.currLeaderModel = currLeaderModel;
 	}
 	
+	
+
 	
 }

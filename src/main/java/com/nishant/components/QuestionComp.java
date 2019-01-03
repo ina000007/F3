@@ -2,7 +2,9 @@ package com.nishant.components;
 
 import java.util.ArrayList;
 import java.util.Date;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 import java.util.Optional;
 
 import javax.annotation.PostConstruct;
@@ -104,14 +106,14 @@ public class QuestionComp {
 		Optional<ResultSetModel> resultFrmDB = resultSetRepo.findById(email);
 		if (resultFrmDB.isPresent()) {
 			ResultSetModel resultSet = resultFrmDB.get();
-			List<CurrLeaderModel> currLst = resultSet.getCurrLeaderModel();
-			currLst.add(currLedrObj);
-			resultSetRepo.save(new ResultSetModel(email, currLst));
+			Map<String, CurrLeaderModel> currMap = resultSet.getCurrLeaderModel();
+			currMap.put(qId, currLedrObj);
+			resultSetRepo.save(new ResultSetModel(email, currMap));
 			System.out.println("Save result in DB");
 		} else {
-			List<CurrLeaderModel> currLst = new ArrayList<>();
-			currLst.add(currLedrObj);
-			resultSetRepo.save(new ResultSetModel(email, currLst));
+			Map<String, CurrLeaderModel> map = new HashMap<>();
+			map.put(qId, currLedrObj);
+			resultSetRepo.save(new ResultSetModel(email, map));
 			System.out.println("Save result in DB_1");
 		}
 
